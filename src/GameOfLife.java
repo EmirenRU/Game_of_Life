@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class GameOfLife {
@@ -16,6 +17,7 @@ public class GameOfLife {
     private static final int CELL_SIZE = 10;  // Размер Клетки
 
     private Cell[][] gameBoard;
+    private ArrayList<JButton> buttons = new ArrayList<>();
 
     private static Timer timer;
     private static boolean running;
@@ -88,24 +90,17 @@ public class GameOfLife {
 
         gamePanel.setPreferredSize(new Dimension(GRID_SIZE * CELL_SIZE, GRID_SIZE * CELL_SIZE));
 
-        JButton startButton = new JButton("Start");
-        startButton.addActionListener(new ActionListener() {
+        buttons.add(new JButton("Start"));
+        buttons.get(0).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 startGame();
             }
         });
 
-        JButton stopButton = new JButton("Stop");
-        stopButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                stopGame();
-            }
-        });
 
-        JButton restartButton = new JButton("Restart");
-        restartButton.addActionListener(new ActionListener() {
+        buttons.add( new JButton("Restart"));
+        buttons.get(1).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 initializeGameBoard();
@@ -113,10 +108,18 @@ public class GameOfLife {
             }
         });
 
+
+        buttons.add(new JButton("Stop"));
+        buttons.get(2).addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                stopGame();
+            }
+        });
+
         controlPanel = new JPanel();
-        controlPanel.add(startButton);
-        controlPanel.add(restartButton);
-        controlPanel.add(stopButton);
+        for (JButton i : buttons)
+            controlPanel.add(i);
 
         frame.add(gamePanel, BorderLayout.CENTER);
         frame.add(controlPanel, BorderLayout.SOUTH);
